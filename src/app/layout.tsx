@@ -15,6 +15,9 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Anisul Islam | Full Stack Developer",
   description: "Portfolio of Anisul Islam, a Full Stack Developer building scalable web applications.",
+  verification: {
+    google: "GBdB09k-Od3VusGZovFayQn1Ni2XtemEMhKkmvvPLUY",
+  },
 };
 
 export default function RootLayout({
