@@ -18,11 +18,11 @@ export const portfolioData = {
     },
     {
       category: "Frontend Technologies",
-      items: ["ReactJS", "NextJS", "Redux", "Vite", "Tailwind CSS", "TypeScript (TSX)"]
+      items: ["ReactJS", "NextJS", "React Native", "Redux", "Vite", "Tailwind CSS", "TypeScript (TSX)"]
     },
     {
       category: "Backend Technologies",
-      items: ["NodeJS", "ExpressJS", "PHP", "Microservices", "REST APIs", "GraphQL", "Kafka", "RabbitMQ"]
+      items: ["NodeJS", "ExpressJS", "PHP", "Microservices", "REST APIs", "API Design", "GraphQL", "Kafka", "RabbitMQ"]
     },
     {
       category: "Database Technologies",

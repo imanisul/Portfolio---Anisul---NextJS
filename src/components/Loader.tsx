@@ -27,7 +27,7 @@ export default function Loader() {
   if (hasPlayed) return null;
 
   const name = "ANISUL ISLAM";
-  const subtitle = "Full Stack Developer & AI Engineer";
+  const subtitle = "Full Stack Developer";
 
   return (
     <AnimatePresence>

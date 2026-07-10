@@ -8,21 +8,61 @@ import { FileText, Send, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 import TextReveal from "./TextReveal";
 
+import {
+  SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, SiTypescript, SiTailwindcss,
+  SiExpress, SiRedis, SiRabbitmq, SiPostgresql, SiDocker,
+  SiRedux, SiVite,
+  SiLangchain, SiPython
+} from "react-icons/si";
+import { FaRobot, FaDatabase, FaNetworkWired } from "react-icons/fa";
+
 const roles = [
   {
     title: "Full Stack Developer",
     color: "from-blue-400 to-cyan-400",
-    tools: ["React", "Next.js", "Node.js", "MongoDB", "TypeScript", "Tailwind CSS"],
+    tools: [
+      { name: "React", Icon: SiReact, color: "text-blue-400" },
+      { name: "Next.js", Icon: SiNextdotjs, color: "text-white" },
+      { name: "Node.js", Icon: SiNodedotjs, color: "text-green-500" },
+      { name: "MongoDB", Icon: SiMongodb, color: "text-green-500" },
+      { name: "TypeScript", Icon: SiTypescript, color: "text-blue-500" },
+      { name: "Tailwind", Icon: SiTailwindcss, color: "text-cyan-400" },
+    ],
   },
   {
     title: "Backend Developer",
     color: "from-green-400 to-emerald-400",
-    tools: ["Node.js", "Express.js", "Redis", "RabbitMQ", "PostgreSQL", "Docker"],
+    tools: [
+      { name: "Node.js", Icon: SiNodedotjs, color: "text-green-500" },
+      { name: "Express", Icon: SiExpress, color: "text-white" },
+      { name: "Redis", Icon: SiRedis, color: "text-red-500" },
+      { name: "PostgreSQL", Icon: SiPostgresql, color: "text-blue-400" },
+      { name: "Docker", Icon: SiDocker, color: "text-blue-500" },
+      { name: "APIs", Icon: FaNetworkWired, color: "text-purple-400" },
+    ],
   },
   {
     title: "Frontend Developer",
     color: "from-violet-400 to-purple-400",
-    tools: ["React", "Next.js", "Redux", "Vite", "Tailwind CSS", "Framer Motion"],
+    tools: [
+      { name: "React", Icon: SiReact, color: "text-blue-400" },
+      { name: "Next.js", Icon: SiNextdotjs, color: "text-white" },
+      { name: "React Native", Icon: SiReact, color: "text-blue-300" },
+      { name: "Redux", Icon: SiRedux, color: "text-purple-500" },
+      { name: "Vite", Icon: SiVite, color: "text-yellow-400" },
+      { name: "Tailwind", Icon: SiTailwindcss, color: "text-cyan-400" },
+    ],
+  },
+  {
+    title: "AI Enthusiast",
+    color: "from-amber-400 to-orange-400",
+    tools: [
+      { name: "LangChain", Icon: SiLangchain, color: "text-green-400" },
+      { name: "Gemini", Icon: FaRobot, color: "text-teal-400" },
+      { name: "Python", Icon: SiPython, color: "text-yellow-500" },
+      { name: "RAG", Icon: FaDatabase, color: "text-blue-400" },
+      { name: "LLMs", Icon: FaRobot, color: "text-orange-400" },
+    ],
   }
 ];
 
@@ -38,7 +78,7 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(advanceRole, 3000);
+    const interval = setInterval(advanceRole, 4000);
     return () => clearInterval(interval);
   }, [advanceRole]);
 
@@ -182,32 +222,6 @@ export default function Hero() {
                   </motion.div>
                 </AnimatePresence>
               </div>
-
-              {/* ═══ Animated tech pills for current role ═══ */}
-              <div className="h-10 mt-3 relative overflow-hidden">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={roleIndex}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.4, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute inset-0 flex flex-wrap gap-2"
-                  >
-                    {currentRole.tools.map((tool, i) => (
-                      <motion.span
-                        key={tool}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 + i * 0.06 }}
-                        className="px-3 py-1 text-xs font-medium text-white/50 bg-white/[0.04] border border-white/[0.08] rounded-full"
-                      >
-                        {tool}
-                      </motion.span>
-                    ))}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
             </motion.div>
 
             {/* Description */}
@@ -247,19 +261,19 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — Avatar */}
+          {/* Right — Avatar & Orbiting Icons */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ delay: 0.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex justify-center lg:justify-end"
+            className="relative flex justify-center lg:justify-end items-center h-[400px] lg:h-[500px]"
           >
-            <div className="relative">
+            <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
               {/* Glow ring */}
               <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-2xl animate-pulse-glow" />
 
               {/* Image */}
-              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-white/10 animate-float">
+              <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-white/10 z-20">
                 <Image
                   src="https://github.com/imanisul.png"
                   alt={name}
@@ -268,6 +282,58 @@ export default function Hero() {
                   priority
                 />
               </div>
+
+              {/* Orbiting Icons */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={roleIndex}
+                  initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 1.5, rotate: 45 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  className="absolute inset-0 z-10 pointer-events-none"
+                >
+                  {currentRole.tools.map((tool, i) => {
+                    // Distribute icons evenly around the circle
+                    const angle = (i * 360) / currentRole.tools.length;
+                    const radius = 160; // Distance from center
+                    
+                    // Convert polar to cartesian coordinates
+                    const x = Math.cos((angle * Math.PI) / 180) * radius;
+                    const y = Math.sin((angle * Math.PI) / 180) * radius;
+
+                    return (
+                      <motion.div
+                        key={tool.name}
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        initial={{ x: 0, y: 0, opacity: 0 }}
+                        animate={{ x, y, opacity: 1 }}
+                        transition={{ 
+                          duration: 0.8, 
+                          delay: i * 0.1, 
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        <motion.div
+                          animate={{ 
+                            y: [0, -10, 0],
+                            rotate: [0, 5, -5, 0]
+                          }}
+                          transition={{ 
+                            duration: 4, 
+                            repeat: Infinity, 
+                            delay: i * 0.2,
+                            ease: "easeInOut"
+                          }}
+                          className="glass p-3 md:p-4 rounded-xl flex items-center justify-center backdrop-blur-md shadow-lg"
+                        >
+                          <tool.Icon className={`text-2xl md:text-3xl ${tool.color}`} />
+                        </motion.div>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
