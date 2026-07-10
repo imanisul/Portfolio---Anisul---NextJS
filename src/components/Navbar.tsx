@@ -4,84 +4,129 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
+const navLinks = [
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Experience", href: "#experience" },
+  { name: "Projects", href: "#projects" },
+  { name: "Contact", href: "#contact" },
+];
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+      const currentY = window.scrollY;
+      setIsScrolled(currentY > 50);
+      setIsVisible(currentY < lastScrollY || currentY < 100);
+      setLastScrollY(currentY);
 
-  const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Experience", href: "#experience" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
+      // Active section detection
+      const sections = navLinks.map((l) => l.href.slice(1));
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.getBoundingClientRect().top <= 200) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "glass py-4" : "bg-transparent py-6"
-      }`}
-    >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        <a href="#home" className="text-3xl font-black tracking-tighter flex items-center gap-1">
-          <span className="text-white">A</span>
-          <span className="text-blue-500">I</span>
-          <span className="text-violet-500 text-4xl leading-none">.</span>
-        </a>
-
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-slate-300 hover:text-white transition-colors text-sm font-medium tracking-wide"
-            >
-              {link.name}
-            </a>
-          ))}
-        </nav>
-
-        {/* Mobile Nav Toggle */}
-        <button
-          className="md:hidden text-slate-300 hover:text-white"
-          onClick={() => setIsOpen(!isOpen)}
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 right-0 z-[1000] flex justify-center pt-4 px-4 transition-all duration-500`}
+      >
+        <nav
+          className={`flex items-center gap-1 px-2 py-2 rounded-full transition-all duration-500 ${
+            isScrolled
+              ? "glass-strong shadow-lg shadow-black/20"
+              : "bg-transparent"
+          }`}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* Mobile Nav Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden absolute top-full left-0 w-full glass flex flex-col items-center py-6 gap-6"
+          {/* Logo */}
+          <a
+            href="#home"
+            className="px-4 py-2 text-lg font-bold tracking-tight text-white mr-2"
           >
+            <span className="text-white">A</span>
+            <span className="text-blue-500">I</span>
+            <span className="text-purple-500">.</span>
+          </a>
+
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
+                className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${
+                  activeSection === link.href.slice(1)
+                    ? "text-white"
+                    : "text-white/50 hover:text-white/80"
+                }`}
+              >
+                {activeSection === link.href.slice(1) && (
+                  <motion.div
+                    layoutId="activeNav"
+                    className="absolute inset-0 bg-white/[0.08] rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{link.name}</span>
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile toggle */}
+          <button
+            className="md:hidden p-2 text-white/60 hover:text-white ml-2"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </nav>
+      </motion.header>
+
+      {/* Mobile overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[999] bg-[#050505]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8"
+          >
+            {navLinks.map((link, i) => (
+              <motion.a
+                key={link.name}
+                href={link.href}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 30 }}
+                transition={{ delay: i * 0.05, duration: 0.3 }}
                 onClick={() => setIsOpen(false)}
-                className="text-slate-300 hover:text-white text-lg font-medium"
+                className="text-3xl font-medium text-white/70 hover:text-white transition-colors"
               >
                 {link.name}
-              </a>
+              </motion.a>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

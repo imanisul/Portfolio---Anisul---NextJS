@@ -2,68 +2,115 @@
 
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
-import { Briefcase } from "lucide-react";
+import { Briefcase, MapPin } from "lucide-react";
 
 export default function Experience() {
   const { experience } = portfolioData;
 
   return (
-    <section id="experience" className="py-24 relative bg-slate-900/30">
+    <section id="experience" className="section-spacing relative overflow-hidden bg-white/[0.01]">
       <div className="container mx-auto px-6">
+        {/* Section label */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
+          className="flex items-center gap-4 mb-6"
         >
-          <div className="flex items-center gap-4 mb-16">
-            <h2 className="text-4xl font-bold text-white">Experience</h2>
-            <div className="h-[1px] flex-1 bg-slate-700"></div>
-          </div>
+          <span className="text-white/20 text-sm font-mono tracking-wider">03</span>
+          <div className="h-[1px] w-12 bg-white/10" />
+          <span className="text-white/40 text-sm tracking-[0.2em] uppercase">Experience</span>
+        </motion.div>
 
-          <div className="relative pl-8 md:pl-0">
-            {/* Timeline Line */}
-            <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-slate-800"></div>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl md:text-5xl font-bold text-white mb-20"
+        >
+          Where I&apos;ve Worked
+        </motion.h2>
 
-            {experience.map((exp, idx) => (
-              <div key={idx} className="relative md:w-1/2 md:pr-12 md:ml-0 mb-12">
-                {/* Timeline Dot */}
-                <div className="absolute left-[-41px] md:left-auto md:-right-[26px] top-1 w-12 h-12 rounded-full glass bg-slate-900 flex items-center justify-center border-blue-500/50 z-10 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                  <Briefcase className="text-blue-400 w-5 h-5" />
-                </div>
+        {/* Timeline */}
+        <div className="relative max-w-3xl mx-auto">
+          {/* Vertical line */}
+          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[1px] bg-gradient-to-b from-blue-500/30 via-purple-500/20 to-transparent" />
 
+          {experience.map((exp, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{
+                duration: 0.7,
+                delay: idx * 0.15,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative pl-16 md:pl-20 pb-16 last:pb-0"
+            >
+              {/* Timeline dot */}
+              <div className="absolute left-[14px] md:left-[22px] top-1 z-10">
                 <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false, amount: 0.1 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="glass p-8 rounded-3xl group border border-slate-700/50 hover:border-blue-500/50 hover:shadow-[0_20px_40px_rgba(59,130,246,0.1)] transition-all duration-300 relative overflow-hidden"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + idx * 0.15, type: "spring" }}
+                  className="w-6 h-6 rounded-full border-2 border-blue-500/40 bg-[#050505] flex items-center justify-center"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  <div className="relative z-10">
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold mb-4">
-                      {exp.duration}
-                    </span>
-                    <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">{exp.role}</h3>
-                    <h4 className="text-lg text-slate-300 font-medium mb-4">{exp.company} &bull; <span className="text-slate-400 font-normal">{exp.location}</span></h4>
-                    
-                    <ul className="space-y-3">
-                      {exp.responsibilities.map((item, i) => (
-                        <li key={i} className="text-slate-400 flex items-start gap-3 text-sm md:text-base leading-relaxed">
-                          <span className="text-blue-500 mt-1.5 flex-shrink-0 opacity-70">▹</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse-glow" />
                 </motion.div>
               </div>
-            ))}
-          </div>
-        </motion.div>
+
+              {/* Card */}
+              <div className="group relative p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500">
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/[0.03] to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="relative z-10">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-400 text-xs font-semibold tracking-wide">
+                      {exp.duration}
+                    </span>
+                    <span className="flex items-center gap-1 text-white/25 text-xs">
+                      <MapPin size={12} />
+                      {exp.location}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-2">
+                    <Briefcase size={18} className="text-white/30" />
+                    <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
+                      {exp.role}
+                    </h3>
+                  </div>
+
+                  <p className="text-white/50 text-base font-medium mb-6">
+                    {exp.company}
+                  </p>
+
+                  <ul className="space-y-3">
+                    {exp.responsibilities.map((item, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.5 + i * 0.1 }}
+                        className="flex items-start gap-3 text-white/35 text-sm leading-relaxed"
+                      >
+                        <span className="text-blue-500/60 mt-1.5 shrink-0">▸</span>
+                        {item}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

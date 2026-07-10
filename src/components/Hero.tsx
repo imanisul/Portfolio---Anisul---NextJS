@@ -1,157 +1,220 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
 import Image from "next/image";
-import { FileText, Send, Mail } from "lucide-react";
-import { SiReact, SiNextdotjs, SiNodedotjs, SiPython, SiTailwindcss, SiDocker } from "react-icons/si";
+import { FileText, Send, ChevronDown } from "lucide-react";
+import MagneticButton from "./MagneticButton";
+import TextReveal from "./TextReveal";
 
 export default function Hero() {
-  const { name, role, summary, resumeUrl, email } = portfolioData.personal;
+  const { name, role, resumeUrl, email, github, linkedin } = portfolioData.personal;
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Orbital tech stack icons
-  const orbitIcons = [
-    { icon: <SiReact className="text-blue-400 w-6 h-6" />, angle: 0 },
-    { icon: <SiNextdotjs className="text-white w-6 h-6" />, angle: 60 },
-    { icon: <SiNodedotjs className="text-green-500 w-6 h-6" />, angle: 120 },
-    { icon: <SiPython className="text-yellow-400 w-6 h-6" />, angle: 180 },
-    { icon: <SiTailwindcss className="text-cyan-400 w-6 h-6" />, angle: 240 },
-    { icon: <SiDocker className="text-blue-500 w-6 h-6" />, angle: 300 },
-  ];
+  // Spotlight cursor effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const spotlightX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+  const spotlightY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+  const [spotlightOpacity, setSpotlightOpacity] = useState(0);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+      setSpotlightOpacity(1);
+    };
+
+    const handleMouseLeave = () => setSpotlightOpacity(0);
+
+    const el = containerRef.current;
+    if (el) {
+      el.addEventListener("mousemove", handleMouseMove);
+      el.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (el) {
+        el.removeEventListener("mousemove", handleMouseMove);
+        el.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, [mouseX, mouseY]);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 overflow-hidden relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] -z-10" />
+    <section
+      id="home"
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Aurora blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/[0.07] rounded-full blur-[120px] animate-aurora" />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/[0.05] rounded-full blur-[120px] animate-aurora"
+          style={{ animationDelay: "-7s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-cyan-500/[0.04] rounded-full blur-[120px] animate-aurora"
+          style={{ animationDelay: "-14s" }}
+        />
+      </div>
 
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col gap-6"
+      {/* Spotlight cursor */}
+      <motion.div
+        className="absolute pointer-events-none z-10"
+        style={{
+          x: spotlightX,
+          y: spotlightY,
+          translateX: "-50%",
+          translateY: "-50%",
+          opacity: spotlightOpacity,
+          width: 600,
+          height: 600,
+          background:
+            "radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)",
+          transition: "opacity 0.3s",
+        }}
+      />
+
+      {/* Social links — vertical bar */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+        className="hidden lg:flex fixed left-8 bottom-0 flex-col items-center gap-6 z-20"
+      >
+        <a
+          href={github}
+          target="_blank"
+          rel="noreferrer"
+          className="text-white/30 hover:text-white hover:scale-110 transition-all duration-300"
         >
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="inline-block px-4 py-2 rounded-full glass border-blue-500/30 text-blue-400 text-sm font-medium w-max mb-2"
-          >
-            Available for Work
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight"
-          >
-            Hi, I&apos;m <br />
-            <span className="text-gradient">{name}</span>
-          </motion.h1>
-          
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-2xl md:text-3xl font-medium text-slate-300"
-          >
-            {role}
-          </motion.h2>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-            className="text-slate-400 text-lg leading-relaxed max-w-xl"
-          >
-            {summary.substring(0, 150)}...
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            className="flex flex-wrap gap-4 mt-4"
-          >
-            <a
-              href="#contact"
-              className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] flex items-center gap-2 hover:scale-105"
-            >
-              <Send size={18} />
-              Hire Me
-            </a>
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 rounded-xl glass hover:bg-slate-800 text-white font-medium transition-all flex items-center gap-2 border-slate-700 hover:scale-105"
-            >
-              <FileText size={18} />
-              Resume
-            </a>
-            <a
-              href={`mailto:${email}`}
-              className="px-8 py-4 rounded-xl glass hover:bg-slate-800 text-slate-300 hover:text-white font-medium transition-all flex items-center gap-2 border-slate-700 hover:scale-105"
-            >
-              <Mail size={18} />
-              Email Me
-            </a>
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.2, type: "spring", stiffness: 100 }}
-          className="relative flex justify-center lg:justify-end mt-12 lg:mt-0"
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+            <path d="M9 18c-4.51 2-5-2-7-2"/>
+          </svg>
+        </a>
+        <a
+          href={linkedin}
+          target="_blank"
+          rel="noreferrer"
+          className="text-white/30 hover:text-blue-400 hover:scale-110 transition-all duration-300"
         >
-          <div className="relative w-80 h-80 md:w-[450px] md:h-[450px] flex items-center justify-center">
-            
-            {/* Orbital Rings */}
-            <div className="absolute inset-4 rounded-full border-[1px] border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.1)]" />
-            <div className="absolute inset-12 rounded-full border-[1px] border-violet-500/20 shadow-[0_0_20px_rgba(139,92,246,0.1)]" />
-            <div className="absolute inset-20 rounded-full border-[1px] border-slate-600/30 border-dashed animate-spin-slow" style={{ animationDuration: '40s' }} />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect width="4" height="12" x="2" y="9"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a
+          href={`mailto:${email}`}
+          className="text-white/30 hover:text-cyan-400 hover:scale-110 transition-all duration-300"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+        </a>
+        <div className="w-[1px] h-24 bg-white/10" />
+      </motion.div>
 
-            {/* Orbiting Icons */}
+      {/* Main content */}
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left — Text */}
+          <div className="flex flex-col gap-6">
             <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-              className="absolute inset-0 z-20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 text-green-400 text-sm font-medium w-max"
             >
-              {orbitIcons.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="absolute top-1/2 left-1/2 w-12 h-12 -mt-6 -ml-6 flex items-center justify-center rounded-full glass bg-slate-900 border border-slate-700 shadow-[0_0_15px_rgba(59,130,246,0.3)] backdrop-blur-md"
-                    style={{
-                      transform: `rotate(${item.angle}deg) translateX(180px)`,
-                    }}
-                  >
-                    {/* Reverse rotation to keep icons upright */}
-                    <motion.div
-                      animate={{ rotate: -360 }}
-                      transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-                      className="drop-shadow-lg"
-                    >
-                      {item.icon}
-                    </motion.div>
-                  </div>
-                );
-              })}
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              Available for Work
             </motion.div>
 
-            {/* Profile Avatar */}
-            <div className="absolute z-10 w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-slate-800 shadow-[0_0_40px_rgba(59,130,246,0.4)] glass hover:scale-[1.02] transition-transform duration-500">
-              <Image
-                src="https://github.com/imanisul.png"
-                alt={name}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9]">
+              <TextReveal delay={0.6} mode="line" className="text-white/40 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
+                Hi, I&apos;m Anisul
+              </TextReveal>
+              <TextReveal delay={0.8} mode="word" className="text-gradient">
+                I build digital experiences
+              </TextReveal>
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, filter: "blur(10px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+              className="text-white/40 text-lg leading-relaxed max-w-lg"
+            >
+              {role}. I specialize in scalable web apps and intelligent AI workflows with LangChain, React, and Node.js.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4, duration: 0.5 }}
+              className="flex flex-wrap gap-4 mt-4"
+            >
+              <MagneticButton
+                href="#contact"
+                className="px-8 py-4 rounded-full bg-white text-black font-semibold text-sm tracking-wide flex items-center gap-2 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] transition-shadow duration-500"
+              >
+                <Send size={16} />
+                Get in Touch
+              </MagneticButton>
+
+              <MagneticButton
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 rounded-full border border-white/10 text-white/70 hover:text-white hover:border-white/20 font-medium text-sm tracking-wide flex items-center gap-2 transition-all duration-300"
+              >
+                <FileText size={16} />
+                Resume
+              </MagneticButton>
+            </motion.div>
           </div>
+
+          {/* Right — Avatar */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            transition={{ delay: 0.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex justify-center lg:justify-end"
+          >
+            <div className="relative">
+              {/* Glow ring */}
+              <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-2xl animate-pulse-glow" />
+
+              {/* Image */}
+              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-white/10 animate-float">
+                <Image
+                  src="https://github.com/imanisul.png"
+                  alt={name}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2, duration: 0.6 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span className="text-white/20 text-xs tracking-[0.3em] uppercase">Scroll</span>
+          <ChevronDown size={16} className="text-white/20 animate-scroll-indicator" />
         </motion.div>
       </div>
     </section>

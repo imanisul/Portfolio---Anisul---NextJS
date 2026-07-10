@@ -2,78 +2,124 @@
 
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
-import { ExternalLink, FolderGit2 } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+
+const GithubIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
 
 export default function Projects() {
   const { projects } = portfolioData;
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-500/5 rounded-full blur-[100px] -z-10" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] -z-10" />
-
+    <section id="projects" className="section-spacing relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+        {/* Section label */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-16"
+          className="flex items-center gap-4 mb-6"
         >
-          <div className="h-[1px] flex-1 bg-slate-700"></div>
-          <h2 className="text-4xl font-bold text-white">Featured Projects</h2>
-          <div className="h-[1px] flex-1 bg-slate-700"></div>
+          <span className="text-white/20 text-sm font-mono tracking-wider">04</span>
+          <div className="h-[1px] w-12 bg-white/10" />
+          <span className="text-white/40 text-sm tracking-[0.2em] uppercase">Projects</span>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl md:text-5xl font-bold text-white mb-20"
+        >
+          Featured Work
+        </motion.h2>
+
+        {/* Bento grid */}
+        <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.1 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="glass p-8 rounded-3xl flex flex-col h-full border border-slate-700/50 hover:border-violet-500/50 transition-all duration-300 group shadow-lg hover:shadow-[0_20px_40px_rgba(139,92,246,0.15)] relative overflow-hidden"
+              initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.6,
+                delay: idx * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className={`${idx === 0 ? "md:col-span-2" : ""}`}
             >
-              {/* Animated Glow on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="flex justify-between items-start mb-8 relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:bg-violet-600 transition-colors border border-slate-700 group-hover:border-violet-500">
-                  <FolderGit2 className="text-violet-400 group-hover:text-white transition-colors" />
-                </div>
-                <div className="flex gap-4">
-                  {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white cursor-pointer transition-colors p-1">
-                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    </a>
-                  )}
-                  {project.link && (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white cursor-pointer transition-colors p-1">
-                      <ExternalLink size={20} />
-                    </a>
-                  )}
-                </div>
-              </div>
+              <div className="group relative p-8 md:p-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 transition-all duration-500 overflow-hidden shine-sweep h-full">
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.03] via-transparent to-blue-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors relative z-10">
-                {project.name}
-              </h3>
-              
-              <p className="text-slate-400 leading-relaxed mb-8 flex-1 relative z-10">
-                {project.description}
-              </p>
+                {/* Large background number */}
+                <span className="absolute top-6 right-8 text-[8rem] md:text-[10rem] font-bold text-white/[0.02] leading-none pointer-events-none select-none">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
 
-              <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-                {project.tech.map((tech, techIdx) => (
-                  <span 
-                    key={techIdx} 
-                    className="px-3 py-1 text-xs font-medium text-blue-300 bg-blue-500/10 rounded-full border border-blue-500/20"
-                  >
-                    {tech}
-                  </span>
-                ))}
+                <div className="relative z-10">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <span className="text-white/15 text-sm font-mono">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-white/20 text-xs">{project.date}</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full border border-white/[0.06] text-white/30 hover:text-white hover:border-white/20 transition-all duration-300"
+                        >
+                          <GithubIcon />
+                        </a>
+                      )}
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full border border-white/[0.06] text-white/30 hover:text-white hover:border-white/20 transition-all duration-300"
+                        >
+                          <ExternalLink size={18} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-gradient transition-all duration-500">
+                    {project.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-white/35 text-base leading-relaxed mb-8 max-w-2xl">
+                    {project.description}
+                  </p>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech, techIdx) => (
+                      <span
+                        key={techIdx}
+                        className="px-3 py-1 text-xs font-medium text-white/40 bg-white/[0.03] border border-white/[0.06] rounded-full hover:border-white/15 hover:text-white/60 transition-all duration-300"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
