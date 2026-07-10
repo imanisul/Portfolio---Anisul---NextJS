@@ -95,13 +95,13 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="flex flex-wrap gap-3"
+          className="flex overflow-x-auto pb-4 pt-2 gap-3 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full"
         >
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 text-sm rounded-full transition-all duration-300 ${
+              className={`whitespace-nowrap flex-shrink-0 snap-start px-5 py-2.5 text-sm md:text-base font-medium rounded-full transition-all duration-300 ${
                 activeCategory === cat
                   ? "bg-blue-500/20 text-blue-400 border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
                   : "bg-white/[0.02] text-white/40 border border-white/[0.04] hover:bg-white/[0.06] hover:text-white/80"

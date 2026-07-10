@@ -181,13 +181,13 @@ export default function Hero() {
       </motion.div>
 
       {/* Main content */}
-      <div className="container mx-auto px-6 relative z-10 pt-36 md:pt-0">
-        <div className="grid lg:grid-cols-2 gap-16 items-center mt-12 md:mt-0">
+      <div className="container mx-auto px-6 relative z-10 pt-16 lg:pt-0">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mt-24 lg:mt-0">
           {/* Left — Text */}
           <div className="flex flex-col gap-6">
             {/* Name */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1]">
-              <TextReveal delay={0.4} mode="line" className="text-white/70 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] md:leading-[1]">
+              <TextReveal delay={0.4} mode="line" className="text-white/70 text-xl sm:text-2xl md:text-3xl font-medium tracking-normal mb-3 md:mb-4 block">
                 Hi, I&apos;m Anisul
               </TextReveal>
               <TextReveal delay={0.6} mode="word" className="text-gradient">
