@@ -6,7 +6,6 @@ import { portfolioData } from "@/data/portfolio";
 import Image from "next/image";
 import { FileText, Send, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
-import TextReveal from "./TextReveal";
 
 import {
   SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, SiTypescript, SiTailwindcss,
@@ -182,35 +181,29 @@ export default function Hero() {
 
       {/* Main content */}
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center mt-12 md:mt-0">
           {/* Left — Text */}
           <div className="flex flex-col gap-6">
             {/* Name */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9]">
-              <TextReveal delay={0.6} mode="line" className="text-white/40 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
-                Hi, I&apos;m Anisul
-              </TextReveal>
-              <TextReveal delay={0.8} mode="word" className="text-gradient">
-                I build digital experiences
-              </TextReveal>
-            </h1>
-
-            {/* Available badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 text-green-400 text-sm font-medium w-max -mt-2"
+              transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1]"
             >
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Available for Work
-            </motion.div>
+              <span className="text-white/70 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
+                Hi, I&apos;m Anisul
+              </span>
+              <span className="text-gradient">
+                I build digital experiences
+              </span>
+            </motion.h1>
 
             {/* ═══ Animated rotating role ═══ */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.6 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
               className="mt-2"
             >
               <div className="h-14 md:h-16 relative overflow-hidden">
@@ -235,20 +228,32 @@ export default function Hero() {
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, filter: "blur(10px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ delay: 1.3, duration: 0.8 }}
-              className="text-white/35 text-lg leading-relaxed max-w-lg mt-2"
+              initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
+              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+              transition={{ delay: 0.9, duration: 0.8 }}
+              className="text-white/60 text-lg leading-relaxed max-w-lg mt-2"
             >
               I specialize in scalable web apps and intelligent AI workflows with LangChain, React, Node.js, and cutting-edge cloud infrastructure.
             </motion.p>
+
+            {/* Available badge & CTA buttons */}
+            <div className="flex flex-col gap-6 mt-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1, duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 text-green-400 text-sm font-medium w-max"
+              >
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                Available for Work
+              </motion.div>
 
             {/* CTA buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
-              className="flex flex-wrap gap-4 mt-4"
+              transition={{ delay: 1.3, duration: 0.5 }}
+              className="flex flex-wrap gap-4"
             >
               <MagneticButton
                 href="#contact"
@@ -268,6 +273,7 @@ export default function Hero() {
                 Resume
               </MagneticButton>
             </motion.div>
+            </div>
           </div>
 
           {/* Right — Avatar & Orbiting Icons */}

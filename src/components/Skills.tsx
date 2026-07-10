@@ -139,7 +139,7 @@ export default function Skills() {
                   animate={{ 
                     opacity: 1, 
                     scale: 1,
-                    y: activeCategory === "All" ? [0, -5, 0] : 0 
+                    y: activeCategory === "All" ? [0, -12, 0] : 0 
                   }}
                   transition={{ 
                     duration: 0.5, 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -41,6 +41,30 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  // Dark / Light mode logic
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  useEffect(() => {
+    const isLight = localStorage.getItem("theme") === "light";
+    if (isLight) {
+      setIsDarkMode(false);
+      document.body.classList.add("light-mode");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.body.classList.remove("light-mode");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.add("light-mode");
+        localStorage.setItem("theme", "light");
+      }
+      return newMode;
+    });
+  };
 
   return (
     <>
@@ -91,13 +115,22 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden p-2 text-white/60 hover:text-white ml-2"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {/* Actions: Theme Toggle & Mobile Menu */}
+          <div className="flex items-center gap-2 ml-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors duration-300 focus:outline-none"
+              aria-label="Toggle dark mode"
+            >
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <button
+              className="md:hidden p-2 text-white/60 hover:text-white focus:outline-none"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </nav>
       </motion.header>
 
