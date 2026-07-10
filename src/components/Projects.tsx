@@ -55,7 +55,7 @@ export default function Projects() {
               }}
               className={`${idx === 0 ? "md:col-span-2" : ""}`}
             >
-              <div className="group relative p-8 md:p-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 transition-all duration-500 overflow-hidden shine-sweep h-full">
+              <div className="group relative p-6 md:p-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 transition-all duration-500 overflow-hidden shine-sweep h-full">
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.03] via-transparent to-blue-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 

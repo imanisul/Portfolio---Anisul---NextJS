@@ -96,7 +96,7 @@ export default function Skills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-8 shine-sweep hover:border-white/[0.12] transition-colors duration-500 ${
+                className={`relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 md:p-8 shine-sweep hover:border-white/[0.12] transition-colors duration-500 ${
                   isWide ? "md:col-span-2 lg:col-span-1" : "col-span-1"
                 }`}
               >

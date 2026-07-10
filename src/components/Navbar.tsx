@@ -51,7 +51,7 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-[1000] flex justify-center pt-4 px-4 transition-all duration-500`}
       >
         <nav
-          className={`flex items-center gap-1 px-2 py-2 rounded-full transition-all duration-500 ${
+          className={`flex items-center justify-between w-full md:w-auto md:justify-start gap-1 px-4 py-2 md:px-2 rounded-full transition-all duration-500 ${
             isScrolled
               ? "glass-strong shadow-lg shadow-black/20"
               : "bg-transparent"

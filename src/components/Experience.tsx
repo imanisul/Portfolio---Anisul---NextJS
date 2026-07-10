@@ -65,7 +65,7 @@ export default function Experience() {
               </div>
 
               {/* Card */}
-              <div className="group relative p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500">
+              <div className="group relative p-6 md:p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500">
                 {/* Gradient overlay on hover */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/[0.03] to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

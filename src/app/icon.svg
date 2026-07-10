@@ -1,0 +1,8 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="64" fill="#050505"/>
+  <text x="128" y="170" font-family="system-ui, -apple-system, sans-serif" font-size="120" font-weight="900" text-anchor="middle">
+    <tspan fill="#ffffff">A</tspan>
+    <tspan fill="#3b82f6">I</tspan>
+    <tspan fill="#a855f7">.</tspan>
+  </text>
+</svg>
