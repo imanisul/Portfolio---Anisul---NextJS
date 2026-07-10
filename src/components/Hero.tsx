@@ -129,7 +129,7 @@ export default function Hero() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-12"
     >
       {/* Aurora blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -181,8 +181,8 @@ export default function Hero() {
       </motion.div>
 
       {/* Main content */}
-      <div className="container mx-auto px-6 relative z-10 pt-16 lg:pt-0">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mt-24 lg:mt-0">
+      <div className="container mx-auto px-6 relative z-10 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mt-8 lg:mt-0">
           {/* Left — Text */}
           <div className="flex flex-col gap-6">
             {/* Name */}

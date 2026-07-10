@@ -14,7 +14,7 @@ export const portfolioData = {
   skills: [
     {
       category: "AI & LLM Tools",
-      items: ["LangChain", "LangGraph", "n8n", "GenAI", "OpenAI (ChatGPT)", "Claude", "Google Gemini", "Groq"]
+      items: ["LangChain", "LangGraph", "n8n", "GenAI", "OpenAI (ChatGPT)", "Claude", "Google Gemini", "Groq", "Cursor", "Google Anti-Gravity"]
     },
     {
       category: "Frontend Technologies",

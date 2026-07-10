@@ -39,7 +39,8 @@ const getIcon = (skill: string) => {
   if (s.includes("aws")) return <FaAws className="text-orange-400" />;
   if (s.includes("langchain") || s.includes("langgraph")) return <SiLangchain className="text-green-400" />;
   if (s.includes("microservices")) return <FaNetworkWired className="text-purple-400" />;
-  if (s.includes("gpt") || s.includes("claude") || s.includes("gemini") || s.includes("groq") || s.includes("genai") || s.includes("ai") || s.includes("n8n")) return <FaRobot className="text-teal-400" />;
+  if (s.includes("gpt") || s.includes("claude") || s.includes("gemini") || s.includes("groq") || s.includes("genai") || s.includes("ai") || s.includes("n8n") || s.includes("anti-gravity")) return <FaRobot className="text-teal-400" />;
+  if (s.includes("cursor")) return <FaCode className="text-purple-400" />;
   if (s.includes("sql") || s.includes("db")) return <FaDatabase className="text-blue-400" />;
   return <FaTools className="text-white/40" />;
 };
