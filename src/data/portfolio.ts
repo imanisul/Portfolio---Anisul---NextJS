@@ -5,7 +5,7 @@ export const portfolioData = {
     email: "ianisul768@gmail.com",
     phone: "+91-6002813464",
     location: "Guwahati, Assam, India",
-    linkedin: "https://www.linkedin.com/in/anisul-islam", 
+    linkedin: "https://www.linkedin.com/in/imanisul/", 
     github: "https://github.com/ianisul768", 
     whatsapp: "+916002813464",
     resumeUrl: "/Anisul_Islam_resume.pdf",
