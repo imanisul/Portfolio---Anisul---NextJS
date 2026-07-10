@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
 import {
   SiReact, SiNextdotjs, SiRedux, SiVite, SiTailwindcss, SiTypescript,
@@ -11,7 +10,7 @@ import {
   SiGithub, SiPostman, SiDocker,
   SiLangchain,
 } from "react-icons/si";
-import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired } from "react-icons/fa";
+import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired, FaServer, FaCode, FaLaptopCode, FaBrain } from "react-icons/fa";
 
 const getIcon = (skill: string) => {
   const s = skill.toLowerCase();
@@ -44,38 +43,21 @@ const getIcon = (skill: string) => {
   return <FaTools className="text-white/40" />;
 };
 
-function buildMarqueeRows() {
-  const allSkills = portfolioData.skills.flatMap((cat) =>
-    cat.items.map((skill) => ({ skill, category: cat.category }))
-  );
-  const mid = Math.ceil(allSkills.length / 2);
-  return [allSkills.slice(0, mid), allSkills.slice(mid)];
-}
-
-function SkillPill({ skill }: { skill: string }) {
-  return (
-    <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/[0.06] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05] transition-all duration-300 group shrink-0">
-      <span className="text-base group-hover:scale-110 transition-transform duration-300">{getIcon(skill)}</span>
-      <span className="text-sm text-white/60 group-hover:text-white/90 font-medium whitespace-nowrap transition-colors duration-300">
-        {skill}
-      </span>
-    </div>
-  );
-}
+const getCategoryIcon = (category: string) => {
+  const c = category.toLowerCase();
+  if (c.includes("ai")) return <FaBrain className="text-teal-400" />;
+  if (c.includes("frontend")) return <FaLaptopCode className="text-blue-400" />;
+  if (c.includes("backend")) return <FaServer className="text-green-400" />;
+  if (c.includes("database")) return <FaDatabase className="text-orange-400" />;
+  if (c.includes("cloud")) return <FaAws className="text-cyan-400" />;
+  if (c.includes("programming")) return <FaCode className="text-purple-400" />;
+  return <FaTools className="text-gray-400" />;
+};
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [rows] = useState(() => buildMarqueeRows());
-
-  const categories = ["All", ...portfolioData.skills.map((c) => c.category)];
-
-  const filteredSkills = activeCategory === "All" 
-    ? [] 
-    : portfolioData.skills.find(c => c.category === activeCategory)?.items || [];
-
   return (
     <section id="skills" className="section-spacing relative overflow-hidden">
-      <div className="container mx-auto px-6 mb-12">
+      <div className="container mx-auto px-6 mb-16">
         {/* Section label */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -94,87 +76,61 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold text-white mb-8"
+          className="text-4xl md:text-5xl font-bold text-white"
         >
           Tools & Technologies
         </motion.h2>
-
-        {/* Category Filter Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="flex flex-wrap gap-3"
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 text-sm rounded-full transition-all duration-300 ${
-                activeCategory === cat
-                  ? "bg-blue-500/20 text-blue-400 border border-blue-500/40"
-                  : "bg-white/[0.02] text-white/40 border border-white/[0.04] hover:bg-white/[0.06] hover:text-white/80"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
       </div>
 
-      <div className="min-h-[200px]">
-        <AnimatePresence mode="wait">
-          {activeCategory === "All" ? (
-            <motion.div
-              key="marquee"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
-              {rows.map((row, rowIdx) => (
-                <div key={rowIdx} className="relative overflow-hidden">
-                  <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
-                  <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
-                  <div
-                    className={`flex gap-4 ${
-                      rowIdx % 2 === 0 ? "animate-marquee-left" : "animate-marquee-right"
-                    }`}
-                    style={{ animationDuration: rowIdx % 2 === 0 ? "35s" : "40s" }}
-                  >
-                    {[...row, ...row].map((item, i) => (
-                      <SkillPill key={`${rowIdx}-${i}`} skill={item.skill} />
+      {/* Grid of Awesome Bigger Boxes */}
+      <div className="container mx-auto px-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {portfolioData.skills.map((category, idx) => {
+            // Determine column span for a masonry-like feel (optional: make the first one wider)
+            const isWide = idx === 0 || idx === 3; 
+
+            return (
+              <motion.div
+                key={category.category}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className={`relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-8 shine-sweep hover:border-white/[0.12] transition-colors duration-500 ${
+                  isWide ? "md:col-span-2 lg:col-span-1" : "col-span-1"
+                }`}
+              >
+                {/* Glow Overlay on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.05] group-hover:scale-110 transition-transform duration-300">
+                      {getCategoryIcon(category.category)}
+                    </div>
+                    <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
+                      {category.category}
+                    </h3>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2.5 mt-auto">
+                    {category.items.map((skill) => (
+                      <div
+                        key={skill}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.03] hover:bg-white/[0.08] transition-colors duration-300"
+                      >
+                        <span className="text-sm">{getIcon(skill)}</span>
+                        <span className="text-xs font-medium text-white/70">
+                          {skill}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 </div>
-              ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="grid"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-              className="container mx-auto px-6"
-            >
-              <div className="flex flex-wrap gap-4">
-                {filteredSkills.map((skill, i) => (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <SkillPill skill={skill} />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
