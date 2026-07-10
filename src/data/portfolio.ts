@@ -34,7 +34,7 @@ export const portfolioData = {
     },
     {
       category: "Developer Tools",
-      items: ["VS Code", "Git", "GitHub", "Postman"]
+      items: ["VS Code", "Git", "GitHub", "GitHub Actions (CI/CD)", "Postman", "npm/pnpm"]
     },
     {
       category: "Programming Languages",
