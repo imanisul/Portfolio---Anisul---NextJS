@@ -116,6 +116,15 @@ export default function Hero() {
     };
   }, [mouseX, mouseY]);
 
+  // Dynamic radius for orbiting icons
+  const [radius, setRadius] = useState(160);
+  useEffect(() => {
+    const handleResize = () => setRadius(window.innerWidth < 768 ? 140 : 200);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section
       id="home"
@@ -176,17 +185,6 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left — Text */}
           <div className="flex flex-col gap-6">
-            {/* Available badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 text-green-400 text-sm font-medium w-max"
-            >
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Available for Work
-            </motion.div>
-
             {/* Name */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9]">
               <TextReveal delay={0.6} mode="line" className="text-white/40 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
@@ -196,6 +194,17 @@ export default function Hero() {
                 I build digital experiences
               </TextReveal>
             </h1>
+
+            {/* Available badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 text-green-400 text-sm font-medium w-max -mt-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              Available for Work
+            </motion.div>
 
             {/* ═══ Animated rotating role ═══ */}
             <motion.div
@@ -268,12 +277,12 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center lg:justify-end items-center h-[400px] lg:h-[500px]"
           >
-            <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+            <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] flex items-center justify-center">
               {/* Glow ring */}
-              <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-2xl animate-pulse-glow" />
+              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-3xl animate-pulse-glow" />
 
               {/* Image */}
-              <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-white/10 z-20">
+              <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-2 border-white/10 z-20">
                 <Image
                   src="https://github.com/imanisul.png"
                   alt={name}
@@ -296,7 +305,6 @@ export default function Hero() {
                   {currentRole.tools.map((tool, i) => {
                     // Distribute icons evenly around the circle
                     const angle = (i * 360) / currentRole.tools.length;
-                    const radius = 160; // Distance from center
                     
                     // Convert polar to cartesian coordinates
                     const x = Math.cos((angle * Math.PI) / 180) * radius;

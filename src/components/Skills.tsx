@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
 import {
   SiReact, SiNextdotjs, SiRedux, SiVite, SiTailwindcss, SiTypescript,
@@ -55,9 +56,16 @@ const getCategoryIcon = (category: string) => {
 };
 
 export default function Skills() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const categories = ["All", ...portfolioData.skills.map((c) => c.category)];
+
+  const displayedSkills = activeCategory === "All"
+    ? portfolioData.skills
+    : portfolioData.skills.filter(c => c.category === activeCategory);
+
   return (
     <section id="skills" className="section-spacing relative overflow-hidden">
-      <div className="container mx-auto px-6 mb-16">
+      <div className="container mx-auto px-6 mb-12">
         {/* Section label */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -74,63 +82,111 @@ export default function Skills() {
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold text-white"
+          className="text-4xl md:text-5xl font-bold text-white mb-8"
         >
           Tools & Technologies
         </motion.h2>
+
+        {/* Category Filter Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="flex flex-wrap gap-3"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 text-sm rounded-full transition-all duration-300 ${
+                activeCategory === cat
+                  ? "bg-blue-500/20 text-blue-400 border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
+                  : "bg-white/[0.02] text-white/40 border border-white/[0.04] hover:bg-white/[0.06] hover:text-white/80"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </motion.div>
       </div>
 
       {/* Grid of Awesome Bigger Boxes */}
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {portfolioData.skills.map((category, idx) => {
-            // Determine column span for a masonry-like feel (optional: make the first one wider)
-            const isWide = idx === 0 || idx === 3; 
+      <div className="container mx-auto px-6 min-h-[400px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className={`grid gap-6 ${
+              activeCategory === "All" 
+                ? "md:grid-cols-2 lg:grid-cols-3" 
+                : "grid-cols-1 md:w-2/3 lg:w-1/2 mx-auto"
+            }`}
+          >
+            {displayedSkills.map((category, idx) => {
+              // Determine column span for a masonry-like feel when showing all
+              const isWide = activeCategory === "All" && (idx === 0 || idx === 3); 
 
-            return (
-              <motion.div
-                key={category.category}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 md:p-8 shine-sweep hover:border-white/[0.12] transition-colors duration-500 ${
-                  isWide ? "md:col-span-2 lg:col-span-1" : "col-span-1"
-                }`}
-              >
-                {/* Glow Overlay on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.05] group-hover:scale-110 transition-transform duration-300">
-                      {getCategoryIcon(category.category)}
-                    </div>
-                    <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
-                      {category.category}
-                    </h3>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2.5 mt-auto">
-                    {category.items.map((skill) => (
-                      <div
-                        key={skill}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.03] hover:bg-white/[0.08] transition-colors duration-300"
-                      >
-                        <span className="text-sm">{getIcon(skill)}</span>
-                        <span className="text-xs font-medium text-white/70">
-                          {skill}
-                        </span>
+              return (
+                <motion.div
+                  key={category.category}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1,
+                    y: activeCategory === "All" ? [0, -5, 0] : 0 
+                  }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: idx * 0.1,
+                    y: {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: idx * 0.5
+                    }
+                  }}
+                  className={`relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 md:p-8 shine-sweep hover:border-white/[0.12] transition-colors duration-500 ${
+                    isWide ? "md:col-span-2 lg:col-span-1" : "col-span-1"
+                  }`}
+                >
+                  {/* Glow Overlay on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.05] group-hover:scale-110 transition-transform duration-300">
+                        {getCategoryIcon(category.category)}
                       </div>
-                    ))}
+                      <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
+                        {category.category}
+                      </h3>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2.5 mt-auto">
+                      {category.items.map((skill) => (
+                        <div
+                          key={skill}
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.03] hover:bg-white/[0.08] transition-colors duration-300"
+                        >
+                          <span className="text-sm">{getIcon(skill)}</span>
+                          <span className="text-xs font-medium text-white/70 group-hover:text-white/90">
+                            {skill}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

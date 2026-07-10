@@ -23,7 +23,7 @@ export default function TextReveal({
       <motion.span
         initial="hidden"
         whileInView="visible"
-        viewport={{ once, amount: 0.5 }}
+        viewport={{ once, amount: 0.1 }}
         className={`inline-block ${className}`}
       >
         {chars.map((char, i) => (
@@ -57,7 +57,7 @@ export default function TextReveal({
         <motion.div
           initial={{ y: "100%", opacity: 0 }}
           whileInView={{ y: "0%", opacity: 1 }}
-          viewport={{ once, amount: 0.5 }}
+          viewport={{ once, amount: 0.1 }}
           transition={{
             delay,
             duration: 0.7,
@@ -77,7 +77,7 @@ export default function TextReveal({
     <motion.span
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.5 }}
+      viewport={{ once, amount: 0.1 }}
       className={`inline ${className}`}
     >
       {words.map((word, i) => (
