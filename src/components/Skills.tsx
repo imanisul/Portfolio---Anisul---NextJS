@@ -113,79 +113,126 @@ export default function Skills() {
         </motion.div>
       </div>
 
-      {/* Grid of Awesome Bigger Boxes */}
+      {/* Content Area */}
       <div className="container mx-auto px-6 min-h-[400px]">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className={`grid gap-6 ${
-              activeCategory === "All" 
-                ? "md:grid-cols-2 lg:grid-cols-3" 
-                : "grid-cols-1 md:w-2/3 lg:w-1/2 mx-auto"
-            }`}
-          >
-            {displayedSkills.map((category, idx) => {
-              // Determine column span for a masonry-like feel when showing all
-              const isWide = activeCategory === "All" && (idx === 0 || idx === 3); 
+          {activeCategory === "All" ? (
+            <motion.div
+              key="all-sliders"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col gap-6 overflow-hidden py-4 -mx-6 px-6"
+            >
+              {/* Slider Row 1 (Left) */}
+              <div className="relative w-full flex overflow-hidden">
+                <div className="flex w-max animate-marquee-left gap-6 hover:[animation-play-state:paused]">
+                  {[...portfolioData.skills.slice(0, 3), ...portfolioData.skills.slice(0, 3)].map((category, idx) => (
+                    <div
+                      key={`row1-${category.category}-${idx}`}
+                      className="w-[300px] md:w-[400px] flex-shrink-0 relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 shine-sweep hover:border-white/[0.12] transition-colors duration-500"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative z-10 flex flex-col h-full">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.05]">
+                            {getCategoryIcon(category.category)}
+                          </div>
+                          <h3 className="text-xl font-bold text-white">
+                            {category.category}
+                          </h3>
+                        </div>
+                        <div className="flex flex-wrap gap-2.5 mt-auto">
+                          {category.items.slice(0, 6).map((skill) => (
+                            <div key={skill} className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.03]">
+                              <span className="text-sm">{getIcon(skill)}</span>
+                              <span className="text-xs font-medium text-white/70">{skill}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-              return (
-                <motion.div
+              {/* Slider Row 2 (Right) */}
+              <div className="relative w-full flex overflow-hidden">
+                <div className="flex w-max animate-marquee-right gap-6 hover:[animation-play-state:paused]">
+                  {[...portfolioData.skills.slice(3, 6), ...portfolioData.skills.slice(3, 6)].map((category, idx) => (
+                    <div
+                      key={`row2-${category.category}-${idx}`}
+                      className="w-[300px] md:w-[400px] flex-shrink-0 relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 shine-sweep hover:border-white/[0.12] transition-colors duration-500"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/[0.03] via-transparent to-cyan-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative z-10 flex flex-col h-full">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.05]">
+                            {getCategoryIcon(category.category)}
+                          </div>
+                          <h3 className="text-xl font-bold text-white">
+                            {category.category}
+                          </h3>
+                        </div>
+                        <div className="flex flex-wrap gap-2.5 mt-auto">
+                          {category.items.slice(0, 6).map((skill) => (
+                            <div key={skill} className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.03]">
+                              <span className="text-sm">{getIcon(skill)}</span>
+                              <span className="text-xs font-medium text-white/70">{skill}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={activeCategory}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.4 }}
+              className="w-full md:w-2/3 lg:w-1/2 mx-auto"
+            >
+              {displayedSkills.map((category) => (
+                <div
                   key={category.category}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scale: 1,
-                    y: activeCategory === "All" ? [0, -12, 0] : 0 
-                  }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: idx * 0.1,
-                    y: {
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: idx * 0.5
-                    }
-                  }}
-                  className={`relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 md:p-8 shine-sweep hover:border-white/[0.12] transition-colors duration-500 ${
-                    isWide ? "md:col-span-2 lg:col-span-1" : "col-span-1"
-                  }`}
+                  className="relative group overflow-hidden rounded-3xl border border-white/[0.1] bg-white/[0.03] p-8 md:p-10 shine-sweep hover:border-white/[0.2] transition-colors duration-500 shadow-2xl"
                 >
-                  {/* Glow Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.05] via-transparent to-purple-500/[0.05] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative z-10 flex flex-col h-full">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/[0.05] group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/[0.1] group-hover:scale-110 transition-transform duration-300">
                         {getCategoryIcon(category.category)}
                       </div>
-                      <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
+                      <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
                         {category.category}
                       </h3>
                     </div>
 
-                    <div className="flex flex-wrap gap-2.5 mt-auto">
+                    <div className="flex flex-wrap gap-3 mt-auto">
                       {category.items.map((skill) => (
                         <div
                           key={skill}
-                          className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.03] hover:bg-white/[0.08] transition-colors duration-300"
+                          className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.1] transition-colors duration-300"
                         >
-                          <span className="text-sm">{getIcon(skill)}</span>
-                          <span className="text-xs font-medium text-white/70 group-hover:text-white/90">
+                          <span className="text-lg">{getIcon(skill)}</span>
+                          <span className="text-sm font-medium text-white/80 group-hover:text-white">
                             {skill}
                           </span>
                         </div>
                       ))}
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+                </div>
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </section>

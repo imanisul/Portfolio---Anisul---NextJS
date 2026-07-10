@@ -6,6 +6,7 @@ import { portfolioData } from "@/data/portfolio";
 import Image from "next/image";
 import { FileText, Send, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
+import TextReveal from "./TextReveal";
 
 import {
   SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, SiTypescript, SiTailwindcss,
@@ -180,24 +181,19 @@ export default function Hero() {
       </motion.div>
 
       {/* Main content */}
-      <div className="container mx-auto px-6 relative z-10 pt-24 md:pt-0">
+      <div className="container mx-auto px-6 relative z-10 pt-36 md:pt-0">
         <div className="grid lg:grid-cols-2 gap-16 items-center mt-12 md:mt-0">
           {/* Left — Text */}
           <div className="flex flex-col gap-6">
             {/* Name */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1]"
-            >
-              <span className="text-white/70 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1]">
+              <TextReveal delay={0.4} mode="line" className="text-white/70 text-2xl md:text-3xl font-medium tracking-normal mb-4 block">
                 Hi, I&apos;m Anisul
-              </span>
-              <span className="text-gradient">
+              </TextReveal>
+              <TextReveal delay={0.6} mode="word" className="text-gradient">
                 I build digital experiences
-              </span>
-            </motion.h1>
+              </TextReveal>
+            </h1>
 
             {/* ═══ Animated rotating role ═══ */}
             <motion.div
