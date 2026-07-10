@@ -6,7 +6,7 @@ export const portfolioData = {
     phone: "+91-6002813464",
     location: "Guwahati, Assam, India",
     linkedin: "https://www.linkedin.com/in/imanisul/", 
-    github: "https://github.com/ianisul768", 
+    github: "https://github.com/imanisul", 
     whatsapp: "+916002813464",
     resumeUrl: "/Anisul_Islam_resume.pdf",
     summary: "I am a passionate Full Stack Web Developer and AI Enthusiast with over 1.3 years of experience. I specialize in building highly scalable web applications and integrating advanced AI workflows. My technical expertise spans across ReactJS, NodeJS, PHP, MongoDB, and MySQL, alongside cutting-edge AI technologies like LangChain, LangGraph, and Google Gemini AI. I excel at architecting secure backend services, crafting responsive and modern UI designs, and deploying resilient infrastructure on AWS and Docker. I am dedicated to continuous learning and delivering high-performance, intelligent solutions in agile environments."
