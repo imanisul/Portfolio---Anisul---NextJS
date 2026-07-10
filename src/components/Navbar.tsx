@@ -48,7 +48,7 @@ export default function Navbar() {
     const isLight = localStorage.getItem("theme") === "light";
     if (isLight) {
       setIsDarkMode(false);
-      document.body.classList.add("light-mode");
+      document.documentElement.classList.add("light-mode");
     }
   }, []);
 
@@ -56,10 +56,10 @@ export default function Navbar() {
     setIsDarkMode((prev) => {
       const newMode = !prev;
       if (newMode) {
-        document.body.classList.remove("light-mode");
+        document.documentElement.classList.remove("light-mode");
         localStorage.setItem("theme", "dark");
       } else {
-        document.body.classList.add("light-mode");
+        document.documentElement.classList.add("light-mode");
         localStorage.setItem("theme", "light");
       }
       return newMode;

@@ -283,13 +283,12 @@
 }
 
 /* ── Light Mode (Invert Filter) ───────────────────────── */
-.light-mode {
+html.light-mode {
   filter: invert(1) hue-rotate(180deg);
-  background-color: white !important; /* ensures proper inversion base */
 }
 
 /* Prevent images and videos from being inverted twice */
-.light-mode img, 
-.light-mode video {
+html.light-mode img, 
+html.light-mode video {
   filter: invert(1) hue-rotate(180deg);
 }
