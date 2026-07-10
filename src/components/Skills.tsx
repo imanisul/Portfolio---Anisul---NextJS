@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
 import {
   SiReact, SiNextdotjs, SiRedux, SiVite, SiTailwindcss, SiTypescript,
@@ -10,7 +11,7 @@ import {
   SiGithub, SiPostman, SiDocker,
   SiLangchain,
 } from "react-icons/si";
-import { FaAws, FaRobot, FaDatabase, FaTools } from "react-icons/fa";
+import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired } from "react-icons/fa";
 
 const getIcon = (skill: string) => {
   const s = skill.toLowerCase();
@@ -37,17 +38,16 @@ const getIcon = (skill: string) => {
   if (s.includes("docker")) return <SiDocker className="text-blue-500" />;
   if (s.includes("aws")) return <FaAws className="text-orange-400" />;
   if (s.includes("langchain") || s.includes("langgraph")) return <SiLangchain className="text-green-400" />;
+  if (s.includes("microservices")) return <FaNetworkWired className="text-purple-400" />;
   if (s.includes("gpt") || s.includes("claude") || s.includes("gemini") || s.includes("groq") || s.includes("genai") || s.includes("ai") || s.includes("n8n")) return <FaRobot className="text-teal-400" />;
   if (s.includes("sql") || s.includes("db")) return <FaDatabase className="text-blue-400" />;
   return <FaTools className="text-white/40" />;
 };
 
-// Build flat arrays of skill pills for marquee rows
 function buildMarqueeRows() {
   const allSkills = portfolioData.skills.flatMap((cat) =>
     cat.items.map((skill) => ({ skill, category: cat.category }))
   );
-
   const mid = Math.ceil(allSkills.length / 2);
   return [allSkills.slice(0, mid), allSkills.slice(mid)];
 }
@@ -64,11 +64,18 @@ function SkillPill({ skill }: { skill: string }) {
 }
 
 export default function Skills() {
-  const [rows] = [buildMarqueeRows()];
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [rows] = useState(() => buildMarqueeRows());
+
+  const categories = ["All", ...portfolioData.skills.map((c) => c.category)];
+
+  const filteredSkills = activeCategory === "All" 
+    ? [] 
+    : portfolioData.skills.find(c => c.category === activeCategory)?.items || [];
 
   return (
     <section id="skills" className="section-spacing relative overflow-hidden">
-      <div className="container mx-auto px-6 mb-16">
+      <div className="container mx-auto px-6 mb-12">
         {/* Section label */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -87,55 +94,87 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold text-white"
+          className="text-4xl md:text-5xl font-bold text-white mb-8"
         >
           Tools & Technologies
         </motion.h2>
-      </div>
 
-      {/* Marquee rows */}
-      <div className="space-y-4">
-        {rows.map((row, rowIdx) => (
-          <div key={rowIdx} className="relative overflow-hidden">
-            {/* Fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
-
-            <div
-              className={`flex gap-4 ${
-                rowIdx % 2 === 0 ? "animate-marquee-left" : "animate-marquee-right"
-              }`}
-              style={{
-                animationDuration: rowIdx % 2 === 0 ? "35s" : "40s",
-              }}
-            >
-              {/* Duplicate for seamless loop */}
-              {[...row, ...row].map((item, i) => (
-                <SkillPill key={`${rowIdx}-${i}`} skill={item.skill} />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Category labels below */}
-      <div className="container mx-auto px-6 mt-12">
+        {/* Category Filter Buttons */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
           className="flex flex-wrap gap-3"
         >
-          {portfolioData.skills.map((cat, i) => (
-            <span
-              key={i}
-              className="px-3 py-1 text-xs text-white/25 border border-white/[0.04] rounded-full"
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 text-sm rounded-full transition-all duration-300 ${
+                activeCategory === cat
+                  ? "bg-blue-500/20 text-blue-400 border border-blue-500/40"
+                  : "bg-white/[0.02] text-white/40 border border-white/[0.04] hover:bg-white/[0.06] hover:text-white/80"
+              }`}
             >
-              {cat.category}
-            </span>
+              {cat}
+            </button>
           ))}
         </motion.div>
+      </div>
+
+      <div className="min-h-[200px]">
+        <AnimatePresence mode="wait">
+          {activeCategory === "All" ? (
+            <motion.div
+              key="marquee"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-4"
+            >
+              {rows.map((row, rowIdx) => (
+                <div key={rowIdx} className="relative overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
+                  <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
+                  <div
+                    className={`flex gap-4 ${
+                      rowIdx % 2 === 0 ? "animate-marquee-left" : "animate-marquee-right"
+                    }`}
+                    style={{ animationDuration: rowIdx % 2 === 0 ? "35s" : "40s" }}
+                  >
+                    {[...row, ...row].map((item, i) => (
+                      <SkillPill key={`${rowIdx}-${i}`} skill={item.skill} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="container mx-auto px-6"
+            >
+              <div className="flex flex-wrap gap-4">
+                {filteredSkills.map((skill, i) => (
+                  <motion.div
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    <SkillPill skill={skill} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

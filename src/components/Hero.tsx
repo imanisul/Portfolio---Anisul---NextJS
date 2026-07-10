@@ -23,12 +23,7 @@ const roles = [
     title: "Frontend Developer",
     color: "from-violet-400 to-purple-400",
     tools: ["React", "Next.js", "Redux", "Vite", "Tailwind CSS", "Framer Motion"],
-  },
-  {
-    title: "AI Engineer",
-    color: "from-amber-400 to-orange-400",
-    tools: ["LangChain", "LangGraph", "Gemini AI", "RAG Pipeline", "Python", "n8n"],
-  },
+  }
 ];
 
 export default function Hero() {

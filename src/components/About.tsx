@@ -99,7 +99,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/[0.06]"
+          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/[0.06] justify-items-center"
         >
           {stats.map((stat, i) => (
             <motion.div
@@ -108,7 +108,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 + i * 0.1 }}
-              className="text-center md:text-left"
+              className="text-center flex flex-col items-center"
             >
               <div className="text-4xl md:text-5xl font-bold text-white mb-2">
                 {stat.isDecimal ? (
