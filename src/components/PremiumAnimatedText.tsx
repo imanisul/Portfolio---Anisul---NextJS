@@ -75,7 +75,7 @@ export default function PremiumAnimatedText({ text }: PremiumAnimatedTextProps) 
   }, [mouseX, mouseY]);
 
   const words = text.split(" ");
-  const easeOutExpo = [0.19, 1, 0.22, 1];
+  const easeOutExpo = [0.19, 1, 0.22, 1] as any;
 
   const containerVariants = {
     hidden: { opacity: 0 },
