@@ -78,16 +78,17 @@ export default function TextReveal({
       initial="hidden"
       whileInView="visible"
       viewport={{ once, amount: 0.1 }}
-      className={`inline ${className}`}
+      className={`inline-block ${className}`}
     >
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden mr-[0.3em]">
+        <span key={i} className="inline-block mr-[0.3em]">
           <motion.span
             variants={{
-              hidden: { y: "100%", opacity: 0 },
+              hidden: { y: 20, opacity: 0, filter: "blur(8px)" },
               visible: {
-                y: "0%",
+                y: 0,
                 opacity: 1,
+                filter: "blur(0px)",
                 transition: {
                   delay: delay + i * 0.05,
                   duration: 0.5,
