@@ -292,3 +292,11 @@ html.light-mode img,
 html.light-mode video {
   filter: invert(1) hue-rotate(180deg);
 }
+
+@layer utilities {
+  .animate-shimmer-sweep { animation: shimmer-sweep 7s infinite; }
+  @keyframes shimmer-sweep {
+    0% { transform: translateX(-100%) skewX(-20deg); }
+    20%, 100% { transform: translateX(200%) skewX(-20deg); }
+  }
+}

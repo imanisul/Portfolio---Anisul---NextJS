@@ -7,6 +7,7 @@ import Image from "next/image";
 import { FileText, Send, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 import TextReveal from "./TextReveal";
+import PremiumAnimatedText from "./PremiumAnimatedText";
 
 import {
   SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, SiTypescript, SiTailwindcss,
@@ -190,9 +191,7 @@ export default function Hero() {
               <TextReveal delay={0.4} mode="line" className="text-white/70 text-xl sm:text-2xl md:text-3xl font-medium tracking-normal mb-3 md:mb-4 block">
                 Hi, I&apos;m Anisul
               </TextReveal>
-              <TextReveal delay={0.6} mode="word" className="text-gradient">
-                I build digital experiences
-              </TextReveal>
+              <PremiumAnimatedText text="I build digital experiences" />
             </h1>
 
             {/* ═══ Animated rotating role ═══ */}
