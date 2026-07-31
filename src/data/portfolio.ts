@@ -66,8 +66,8 @@ export const portfolioData = {
     {
       name: "HeyyGuru - Smart Learning Platform",
       date: "Dec 2025 – Present",
-      tech: ["React", "Vite", "Tailwind CSS", "TypeScript"],
-      description: "Developed responsive and scalable frontend for India's smart learning platform using reusable TSX components. Applied mobile-first design principles and optimized UI performance across all devices.",
+      tech: ["React", "Vite", "Tailwind CSS", "TypeScript", "PHP", "HTML/CSS", "JavaScript"],
+      description: "Developed a comprehensive smart learning platform featuring a responsive React frontend. Integrated a robust Learning Management System (LMS) and Customer Relationship Management (CRM) module built with PHP and vanilla web technologies to efficiently manage students, instructors, and operational workflows.",
       link: "https://heyyguru.in/"
     },
     {
