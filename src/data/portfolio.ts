@@ -57,6 +57,13 @@ export const portfolioData = {
   ],
   projects: [
     {
+      name: "QuizKaal - Learn Backend Engineering from 0 to Production",
+      date: "July 2026 - Present",
+      tech: ["Next.js", "Tailwind CSS", "TypeScript", "AI Bot Integration", "Google Analytics"],
+      description: "A static interactive learning playground featuring an AI bot to guide users as they master backend engineering from scratch to production through gamified challenges.",
+      link: "https://quizkaal.in/"
+    },
+    {
       name: "HeyyGuru - Smart Learning Platform",
       date: "Dec 2025 – Present",
       tech: ["React", "Vite", "Tailwind CSS", "TypeScript"],
