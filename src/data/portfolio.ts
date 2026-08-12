@@ -38,7 +38,7 @@ export const portfolioData = {
     },
     {
       category: "Programming Languages",
-      items: ["JavaScript", "TypeScript", "Python", "C++", "SQL"]
+      items: ["JavaScript", "TypeScript", "Python", "C++", "C", "Java", "SQL"]
     }
   ],
   experience: [
