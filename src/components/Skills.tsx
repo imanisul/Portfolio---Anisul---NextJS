@@ -8,10 +8,10 @@ import {
   SiNodedotjs, SiExpress, SiPhp, SiGraphql, SiRabbitmq,
   SiMongodb, SiMysql, SiRedis, SiPostgresql,
   SiPython, SiCplusplus, SiJavascript,
-  SiGithub, SiPostman, SiDocker,
-  SiLangchain,
+  SiLangchain, SiC,
+  SiApachekafka, SiGit, SiVisualstudiocode, SiNpm, SiPnpm, SiVercel, SiNginx
 } from "react-icons/si";
-import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired, FaServer, FaCode, FaLaptopCode, FaBrain } from "react-icons/fa";
+import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired, FaServer, FaCode, FaLaptopCode, FaBrain, FaJava, FaLinux, FaProjectDiagram, FaCogs } from "react-icons/fa";
 
 const getIcon = (skill: string) => {
   const s = skill.toLowerCase();
@@ -32,7 +32,20 @@ const getIcon = (skill: string) => {
   if (s.includes("postgres")) return <SiPostgresql className="text-blue-400" />;
   if (s.includes("python")) return <SiPython className="text-yellow-500" />;
   if (s.includes("c++")) return <SiCplusplus className="text-blue-600" />;
+  if (s === "c") return <SiC className="text-blue-500" />;
   if (s.includes("javascript")) return <SiJavascript className="text-yellow-400" />;
+  if (s.includes("java") && !s.includes("javascript")) return <FaJava className="text-red-500" />;
+  if (s.includes("kafka")) return <SiApachekafka className="text-white" />;
+  if (s.includes("chroma")) return <FaDatabase className="text-blue-300" />;
+  if (s.includes("api")) return <FaProjectDiagram className="text-gray-300" />;
+  if (s.includes("vercel")) return <SiVercel className="text-white" />;
+  if (s.includes("nginx")) return <SiNginx className="text-green-500" />;
+  if (s.includes("linux") || s.includes("server")) return <FaLinux className="text-yellow-300" />;
+  if (s.includes("ci/cd")) return <FaCogs className="text-blue-400" />;
+  if (s.includes("vs code") || s.includes("vscode")) return <SiVisualstudiocode className="text-blue-500" />;
+  if (s === "git") return <SiGit className="text-orange-500" />;
+  if (s.includes("npm")) return <SiNpm className="text-red-500" />;
+  if (s.includes("pnpm")) return <SiPnpm className="text-orange-400" />;
   if (s.includes("github")) return <SiGithub className="text-white" />;
   if (s.includes("postman")) return <SiPostman className="text-orange-500" />;
   if (s.includes("docker")) return <SiDocker className="text-blue-500" />;
