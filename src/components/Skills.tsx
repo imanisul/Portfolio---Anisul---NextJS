@@ -9,7 +9,8 @@ import {
   SiMongodb, SiMysql, SiRedis, SiPostgresql,
   SiPython, SiCplusplus, SiJavascript,
   SiLangchain, SiC,
-  SiApachekafka, SiGit, SiVisualstudiocode, SiNpm, SiPnpm, SiVercel, SiNginx
+  SiGithub, SiPostman, SiDocker,
+  SiApachekafka, SiGit, SiNpm, SiPnpm, SiVercel, SiNginx
 } from "react-icons/si";
 import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired, FaServer, FaCode, FaLaptopCode, FaBrain, FaJava, FaLinux, FaProjectDiagram, FaCogs } from "react-icons/fa";
 
@@ -42,7 +43,7 @@ const getIcon = (skill: string) => {
   if (s.includes("nginx")) return <SiNginx className="text-green-500" />;
   if (s.includes("linux") || s.includes("server")) return <FaLinux className="text-yellow-300" />;
   if (s.includes("ci/cd")) return <FaCogs className="text-blue-400" />;
-  if (s.includes("vs code") || s.includes("vscode")) return <SiVisualstudiocode className="text-blue-500" />;
+  if (s.includes("vs code") || s.includes("vscode")) return <FaCode className="text-blue-500" />;
   if (s === "git") return <SiGit className="text-orange-500" />;
   if (s.includes("npm")) return <SiNpm className="text-red-500" />;
   if (s.includes("pnpm")) return <SiPnpm className="text-orange-400" />;
