@@ -70,7 +70,7 @@ export const portfolioData = {
     {
       company: "HeyyGuru",
       role: "Full Stack Web Developer",
-      duration: "Apr 2025 – Present",
+      duration: "Apr 2025 – Aug 2026",
       location: "Remote",
       responsibilities: [
         "Architected and built high-performance frontend applications using React, Vite, Tailwind CSS, and reusable TSX components.",
