@@ -10,13 +10,16 @@ import {
   SiPython, SiCplusplus, SiJavascript,
   SiLangchain, SiC,
   SiGithub, SiPostman, SiDocker,
-  SiApachekafka, SiGit, SiNpm, SiPnpm, SiVercel, SiNginx
+  SiApachekafka, SiGit, SiNpm, SiPnpm, SiVercel, SiNginx, SiExpo
 } from "react-icons/si";
-import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired, FaServer, FaCode, FaLaptopCode, FaBrain, FaJava, FaLinux, FaProjectDiagram, FaCogs } from "react-icons/fa";
+import { FaAws, FaRobot, FaDatabase, FaTools, FaNetworkWired, FaServer, FaCode, FaLaptopCode, FaBrain, FaJava, FaLinux, FaProjectDiagram, FaCogs, FaMobileAlt } from "react-icons/fa";
 
 const getIcon = (skill: string) => {
   const s = skill.toLowerCase();
   if (s.includes("react")) return <SiReact className="text-blue-400" />;
+  if (s.includes("expo")) return <SiExpo className="text-white" />;
+  if (s.includes("mobile")) return <FaMobileAlt className="text-pink-400" />;
+  if (s.includes("cross")) return <FaCode className="text-gray-400" />;
   if (s.includes("next")) return <SiNextdotjs className="text-white" />;
   if (s.includes("redux")) return <SiRedux className="text-purple-500" />;
   if (s.includes("vite")) return <SiVite className="text-yellow-400" />;
@@ -63,6 +66,7 @@ const getCategoryIcon = (category: string) => {
   const c = category.toLowerCase();
   if (c.includes("ai")) return <FaBrain className="text-teal-400" />;
   if (c.includes("frontend")) return <FaLaptopCode className="text-blue-400" />;
+  if (c.includes("mobile")) return <FaMobileAlt className="text-pink-400" />;
   if (c.includes("backend")) return <FaServer className="text-green-400" />;
   if (c.includes("database")) return <FaDatabase className="text-orange-400" />;
   if (c.includes("cloud")) return <FaAws className="text-cyan-400" />;
@@ -143,7 +147,7 @@ export default function Skills() {
               {/* Slider Row 1 (Left) */}
               <div className="relative w-full flex overflow-hidden">
                 <div className="flex w-max animate-marquee-left gap-6 hover:[animation-play-state:paused]">
-                  {[...portfolioData.skills.slice(0, 3), ...portfolioData.skills.slice(0, 3)].map((category, idx) => (
+                  {[...portfolioData.skills.slice(0, 4), ...portfolioData.skills.slice(0, 4)].map((category, idx) => (
                     <div
                       key={`row1-${category.category}-${idx}`}
                       className="w-[300px] md:w-[400px] flex-shrink-0 relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 shine-sweep hover:border-white/[0.12] transition-colors duration-500"
@@ -175,7 +179,7 @@ export default function Skills() {
               {/* Slider Row 2 (Right) */}
               <div className="relative w-full flex overflow-hidden">
                 <div className="flex w-max animate-marquee-right gap-6 hover:[animation-play-state:paused]">
-                  {[...portfolioData.skills.slice(3, 6), ...portfolioData.skills.slice(3, 6)].map((category, idx) => (
+                  {[...portfolioData.skills.slice(4, 8), ...portfolioData.skills.slice(4, 8)].map((category, idx) => (
                     <div
                       key={`row2-${category.category}-${idx}`}
                       className="w-[300px] md:w-[400px] flex-shrink-0 relative group overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 shine-sweep hover:border-white/[0.12] transition-colors duration-500"
